@@ -18,3 +18,5 @@ jobs:
           npm run import:figma
           git diff --exit-code tokens/ || (echo "::error::tokens/ differs from figma-export/ — never hand-edit tokens/; refresh the snapshot and run 'npm run import:figma'." && exit 1)
       - run: npm test
+      - name: Storybook builds
+        run: npm run storybook:build

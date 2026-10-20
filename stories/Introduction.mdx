@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# GDL — General Design Library
+
+The parent design system. VCP, CAF, BeyondFriends and WHU build on it, the same way their Figma libraries
+subscribe to the GDL Figma library (`1rBM831Vs5ZS4OsRwIPH52`).
+
+GDL has no components yet; this Storybook shows its **foundations**:
+
+- **Colour.** The semantic names every brand defines, and the core palette they point at.
+- **Typography.** The 47-style type ramp and the font families.
+- **Spacing** and **Shape** (radius, stroke width, elevation).
+- **Contract.** The required, recommended and extension names a brand is checked against.
+
+## The reference theme is a placeholder
+
+Semantic colours here use GDL's **reference theme**: values on the pink brand slot (`color.primary`), which each
+brand replaces with its own ramp. Judge names, structure and steps here. Judge colour in a brand's Storybook.
+Use **Theme** in the toolbar to switch between light and dark.
+
+## Where the values come from
+
+Every page reads `dist/tokens.json`, built from `tokens/` (generated from the GDL Figma file) and
+`themes/reference/`. Nothing is typed in by hand. Run `npm run storybook` and it rebuilds the tokens first.

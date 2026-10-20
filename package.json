@@ -38,9 +38,23 @@
     "lint:changes": "node scripts/lint-changes.mjs",
     "changelog": "node scripts/changelog.mjs",
     "test": "npm run lint:tokens && npm run build && npm run check:contract && npm run lint:changes",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "storybook": "npm run build && storybook dev -p ${PORT:-6006}",
+    "storybook:build": "npm run build && storybook build"
   },
   "peerDependencies": { "style-dictionary": ">=5" },
   "peerDependenciesMeta": { "style-dictionary": { "optional": true } },
-  "devDependencies": { "style-dictionary": "^5.5.1" }
+  "devDependencies": {
+    "@storybook/addon-docs": "^10.6.2",
+    "@storybook/react-vite": "^10.6.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "storybook": "^10.6.2",
+    "style-dictionary": "^5.5.1",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
+  }
 }
