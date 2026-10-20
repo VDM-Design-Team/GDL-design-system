@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — unreleased
+## 0.1.0 — 2026-10-20
 
 ### First release — tokens, contract and shared tooling (October 2026)
 
