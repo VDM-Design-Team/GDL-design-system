@@ -15,6 +15,20 @@ it, the same way their Figma libraries subscribe to the GDL Figma library.
 
 What lives where, and why: [`docs/architecture.md`](docs/architecture.md).
 
+## For designers — seeing the latest
+
+**Just want to look at it? Open the published Storybook:**
+
+### https://main--6ad738a1d955b2bc270fdb8a.chromatic.com
+
+Always the current `main`, updated on every merge. Nothing to install, no account
+needed. It shows the foundations (colour, type, spacing, shape) and the semantic
+colour contract; semantic colours use the pink placeholder brand slot, so judge
+names and structure here and colour in a brand's Storybook.
+
+Every PR also gets a "Visual review" comment with its own live Storybook and
+before → after diffs against `main`.
+
 ## For a brand repo
 
 ```bash
