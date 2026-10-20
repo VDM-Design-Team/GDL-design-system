@@ -32,8 +32,12 @@ before → after diffs against `main`.
 ## For a brand repo
 
 ```bash
-npm install --save-dev @vdm-design-team/gdl style-dictionary
+npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^0.1.0" style-dictionary
 ```
+
+This installs GDL from its release tag: no token, no `.npmrc`, and it resolves
+only to tagged releases. (GitHub Packages needs a `read:packages` token even
+for a public package, so it is the alternative, not the default.)
 
 Keep only your brand ramps and your semantic values; take everything else
 from GDL; build with GDL's formats; run `gdl-check-contract` in CI. The full
@@ -60,9 +64,10 @@ npm run changelog      # fold changes/ into CHANGELOG.md and bump the version
 ```
 
 Merge that as the release PR, then create a GitHub release tagged
-`v<version>`. The release workflow publishes `@vdm-design-team/gdl` to
-GitHub Packages. Brands pick it up through a dependency-bump PR — the GitHub
-equivalent of accepting a Figma library update.
+`v<version>`. The tag is what brands install from, and the release workflow
+also publishes `@vdm-design-team/gdl` to GitHub Packages. Brands pick it up
+through a dependency-bump PR — the GitHub equivalent of accepting a Figma
+library update.
 
 ## Figma
 
