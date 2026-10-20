@@ -1,0 +1,182 @@
+{
+  "space": {
+    "0": {
+      "$value": "0px",
+      "$description": "0px spacing."
+    },
+    "2": {
+      "$value": "2px",
+      "$description": "2px spacing."
+    },
+    "4": {
+      "$value": "4px",
+      "$description": "4px spacing."
+    },
+    "6": {
+      "$value": "6px",
+      "$description": "6px spacing."
+    },
+    "8": {
+      "$value": "8px",
+      "$description": "8px spacing."
+    },
+    "12": {
+      "$value": "12px",
+      "$description": "12px spacing."
+    },
+    "16": {
+      "$value": "16px",
+      "$description": "16px spacing."
+    },
+    "20": {
+      "$value": "20px",
+      "$description": "20px spacing."
+    },
+    "24": {
+      "$value": "24px",
+      "$description": "24px spacing."
+    },
+    "28": {
+      "$value": "28px",
+      "$description": "28px spacing."
+    },
+    "32": {
+      "$value": "32px",
+      "$description": "32px spacing."
+    },
+    "36": {
+      "$value": "36px",
+      "$description": "36px spacing."
+    },
+    "40": {
+      "$value": "40px",
+      "$description": "40px spacing."
+    },
+    "44": {
+      "$value": "44px",
+      "$description": "44px spacing."
+    },
+    "48": {
+      "$value": "48px",
+      "$description": "48px spacing."
+    },
+    "64": {
+      "$value": "64px",
+      "$description": "64px spacing."
+    },
+    "80": {
+      "$value": "80px",
+      "$description": "80px spacing."
+    },
+    "128": {
+      "$value": "128px",
+      "$description": "128px spacing."
+    },
+    "256": {
+      "$value": "256px",
+      "$description": "256px spacing."
+    },
+    "$description": "Spacing scale in px. Same steps as Tailwind's numeric scale (4px = p-1), so components use p-*/gap-* utilities.",
+    "$type": "dimension"
+  },
+  "radius": {
+    "0": {
+      "$value": "0px",
+      "$description": "0px corner radius."
+    },
+    "2": {
+      "$value": "2px",
+      "$description": "2px corner radius."
+    },
+    "4": {
+      "$value": "4px",
+      "$description": "4px corner radius."
+    },
+    "6": {
+      "$value": "6px",
+      "$description": "6px corner radius."
+    },
+    "8": {
+      "$value": "8px",
+      "$description": "8px corner radius."
+    },
+    "12": {
+      "$value": "12px",
+      "$description": "12px corner radius."
+    },
+    "16": {
+      "$value": "16px",
+      "$description": "16px corner radius."
+    },
+    "20": {
+      "$value": "20px",
+      "$description": "20px corner radius."
+    },
+    "24": {
+      "$value": "24px",
+      "$description": "24px corner radius."
+    },
+    "28": {
+      "$value": "28px",
+      "$description": "28px corner radius."
+    },
+    "32": {
+      "$value": "32px",
+      "$description": "32px corner radius."
+    },
+    "64": {
+      "$value": "64px",
+      "$description": "64px corner radius."
+    },
+    "$description": "Corner radius in px. radius.full is the pill shape.",
+    "$type": "dimension",
+    "full": {
+      "$value": "1000px",
+      "$description": "Fully rounded (pill)."
+    }
+  },
+  "stroke-width": {
+    "0": {
+      "$value": "0px",
+      "$description": "0px stroke width."
+    },
+    "1": {
+      "$value": "1px",
+      "$description": "1px stroke width."
+    },
+    "2": {
+      "$value": "2px",
+      "$description": "2px stroke width."
+    },
+    "3": {
+      "$value": "3px",
+      "$description": "3px stroke width."
+    },
+    "4": {
+      "$value": "4px",
+      "$description": "4px stroke width."
+    },
+    "6": {
+      "$value": "6px",
+      "$description": "6px stroke width."
+    },
+    "8": {
+      "$value": "8px",
+      "$description": "8px stroke width."
+    },
+    "12": {
+      "$value": "12px",
+      "$description": "12px stroke width."
+    },
+    "16": {
+      "$value": "16px",
+      "$description": "16px stroke width."
+    },
+    "$description": "Stroke / border widths in px. 1.5px is named 1-5 because \".\" is not allowed in token names.",
+    "$type": "dimension",
+    "1-5": {
+      "$value": "1.5px",
+      "$description": "1.5px stroke width."
+    }
+  }
+}

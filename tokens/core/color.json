@@ -1,0 +1,342 @@
+{
+  "color": {
+    "$type": "color",
+    "primary": {
+      "50": {
+        "$value": "#fef6f8"
+      },
+      "100": {
+        "$value": "#fcedf1"
+      },
+      "200": {
+        "$value": "#f9d1dc"
+      },
+      "300": {
+        "$value": "#f2a3b9"
+      },
+      "400": {
+        "$value": "#eb7597"
+      },
+      "500": {
+        "$value": "#e54774"
+      },
+      "600": {
+        "$value": "#ac3557"
+      },
+      "700": {
+        "$value": "#73243a"
+      },
+      "800": {
+        "$value": "#39121d"
+      },
+      "900": {
+        "$value": "#17070c"
+      },
+      "950": {
+        "$value": "#0b0406"
+      },
+      "$description": "Brand slot. Placeholder ramp that each brand replaces with its own (e.g. vcp-blue, CAF-blue)."
+    },
+    "secondary": {
+      "50": {
+        "$value": "#fafdfd"
+      },
+      "100": {
+        "$value": "#f6fbfb"
+      },
+      "200": {
+        "$value": "#e8f4f5"
+      },
+      "300": {
+        "$value": "#d1e9eb"
+      },
+      "400": {
+        "$value": "#badee2"
+      },
+      "500": {
+        "$value": "#a3d3d8"
+      },
+      "600": {
+        "$value": "#7a9ea2"
+      },
+      "700": {
+        "$value": "#526a6c"
+      },
+      "800": {
+        "$value": "#293536"
+      },
+      "900": {
+        "$value": "#101516"
+      },
+      "950": {
+        "$value": "#0b0406"
+      },
+      "$description": "Origin unknown. Not used by VCP or CAF semantics (Oct 2026 audit). Kept as-is."
+    },
+    "neutral": {
+      "50": {
+        "$value": "#f9f9f9"
+      },
+      "100": {
+        "$value": "#f2f2f2"
+      },
+      "200": {
+        "$value": "#dfdfdf"
+      },
+      "300": {
+        "$value": "#c0c0c0"
+      },
+      "400": {
+        "$value": "#a1a1a1"
+      },
+      "500": {
+        "$value": "#818181"
+      },
+      "600": {
+        "$value": "#616161"
+      },
+      "700": {
+        "$value": "#414141"
+      },
+      "800": {
+        "$value": "#202020"
+      },
+      "900": {
+        "$value": "#0d0d0d"
+      },
+      "950": {
+        "$value": "#060606"
+      },
+      "$description": "Shared neutral gray."
+    },
+    "green": {
+      "50": {
+        "$value": "#f0fdf4"
+      },
+      "100": {
+        "$value": "#dcfce7"
+      },
+      "200": {
+        "$value": "#b9f8cf"
+      },
+      "300": {
+        "$value": "#7bf1a8"
+      },
+      "400": {
+        "$value": "#05df72"
+      },
+      "500": {
+        "$value": "#00c950"
+      },
+      "600": {
+        "$value": "#00a63e"
+      },
+      "700": {
+        "$value": "#008236"
+      },
+      "800": {
+        "$value": "#016630",
+        "$description": "Fixed 16 Oct 2026: was #008236, a duplicate of green/700. Now Tailwind v4 green-800."
+      },
+      "900": {
+        "$value": "#0d542b"
+      },
+      "950": {
+        "$value": "#032e15"
+      },
+      "$description": "Shared status hue (Tailwind v4 green)."
+    },
+    "red": {
+      "50": {
+        "$value": "#fef2f2"
+      },
+      "100": {
+        "$value": "#ffe2e2"
+      },
+      "200": {
+        "$value": "#ffc9c9"
+      },
+      "300": {
+        "$value": "#ffa2a2"
+      },
+      "400": {
+        "$value": "#ff6467"
+      },
+      "500": {
+        "$value": "#fb2c36"
+      },
+      "600": {
+        "$value": "#e7000b"
+      },
+      "700": {
+        "$value": "#c10007"
+      },
+      "800": {
+        "$value": "#9f0712"
+      },
+      "900": {
+        "$value": "#82181a"
+      },
+      "950": {
+        "$value": "#460809"
+      },
+      "$description": "Shared status hue (Tailwind v4 red)."
+    },
+    "yellow": {
+      "50": {
+        "$value": "#fefce8"
+      },
+      "100": {
+        "$value": "#fef9c2"
+      },
+      "200": {
+        "$value": "#fff085"
+      },
+      "300": {
+        "$value": "#ffdf20"
+      },
+      "400": {
+        "$value": "#fdc700"
+      },
+      "500": {
+        "$value": "#f0b100"
+      },
+      "600": {
+        "$value": "#d08700"
+      },
+      "700": {
+        "$value": "#a65f00"
+      },
+      "800": {
+        "$value": "#894b00"
+      },
+      "900": {
+        "$value": "#733e0a"
+      },
+      "950": {
+        "$value": "#432004"
+      },
+      "$description": "Shared status hue (Tailwind v4 yellow)."
+    },
+    "blue": {
+      "50": {
+        "$value": "#eff6ff"
+      },
+      "100": {
+        "$value": "#dbeafe"
+      },
+      "200": {
+        "$value": "#bedbff"
+      },
+      "300": {
+        "$value": "#8ec5ff"
+      },
+      "400": {
+        "$value": "#51a2ff"
+      },
+      "500": {
+        "$value": "#2b7fff"
+      },
+      "600": {
+        "$value": "#155dfc"
+      },
+      "700": {
+        "$value": "#1447e6"
+      },
+      "800": {
+        "$value": "#193cb8"
+      },
+      "900": {
+        "$value": "#1c398e"
+      },
+      "950": {
+        "$value": "#162456"
+      },
+      "$description": "Shared status hue (Tailwind v4 blue)."
+    },
+    "slate": {
+      "50": {
+        "$value": "#f8fafc"
+      },
+      "100": {
+        "$value": "#f1f5f9"
+      },
+      "200": {
+        "$value": "#e2e8f0"
+      },
+      "300": {
+        "$value": "#cbd5e1"
+      },
+      "400": {
+        "$value": "#94a3b8"
+      },
+      "500": {
+        "$value": "#64748b"
+      },
+      "600": {
+        "$value": "#475569"
+      },
+      "700": {
+        "$value": "#334155"
+      },
+      "800": {
+        "$value": "#1e293b"
+      },
+      "900": {
+        "$value": "#0f172a"
+      },
+      "950": {
+        "$value": "#020617"
+      },
+      "$description": "Shared neutral (Tailwind v3 slate). Used by VCP and CAF semantics. Added to GDL 16 Oct 2026, moved from VCP Brand-Primitives."
+    },
+    "monochrome": {
+      "$description": "Pure white / black / transparent. Added to GDL 16 Oct 2026, moved from VCP Brand-Primitives.",
+      "white": {
+        "$value": "#ffffff"
+      },
+      "black": {
+        "$value": "#000000"
+      },
+      "transparent": {
+        "$value": "#ffffff00"
+      }
+    },
+    "orange": {
+      "50": {
+        "$value": "#fff7ed"
+      },
+      "100": {
+        "$value": "#ffedd5"
+      },
+      "200": {
+        "$value": "#fed7aa"
+      },
+      "300": {
+        "$value": "#fdba74"
+      },
+      "400": {
+        "$value": "#fb923c"
+      },
+      "500": {
+        "$value": "#f97316"
+      },
+      "600": {
+        "$value": "#ea580c"
+      },
+      "700": {
+        "$value": "#c2410c"
+      },
+      "800": {
+        "$value": "#9a3412"
+      },
+      "900": {
+        "$value": "#7c2d12"
+      },
+      "950": {
+        "$value": "#431407"
+      },
+      "$description": "Shared orange (Tailwind v3). Used by CAF accent/pending. Added to GDL 16 Oct 2026, moved from the shadcn community kit."
+    }
+  }
+}

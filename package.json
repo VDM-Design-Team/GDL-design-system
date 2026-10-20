@@ -1,0 +1,46 @@
+{
+  "name": "@vdm-design-team/gdl",
+  "version": "0.1.0",
+  "description": "General Design Library — the parent design system. Shared tokens, the semantic colour contract every brand implements, and the build tooling brands (VCP, CAF, …) use.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "repository": { "type": "git", "url": "https://github.com/VDM-Design-Team/GDL-design-system.git" },
+  "publishConfig": { "registry": "https://npm.pkg.github.com" },
+  "engines": { "node": ">=22" },
+  "files": [
+    "dist",
+    "tokens",
+    "themes",
+    "contract",
+    "build",
+    "scripts/check-contract.mjs",
+    "docs"
+  ],
+  "exports": {
+    "./theme.css": "./dist/theme.css",
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.dark.css": "./dist/tokens.dark.css",
+    "./typography.desktop.css": "./dist/typography.desktop.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./tokens.flat.json": "./dist/tokens.flat.json",
+    "./build": "./build/formats.mjs",
+    "./contract": "./contract/semantic-color.json",
+    "./tokens/*": "./tokens/*",
+    "./themes/*": "./themes/*",
+    "./package.json": "./package.json"
+  },
+  "bin": { "gdl-check-contract": "scripts/check-contract.mjs" },
+  "scripts": {
+    "import:figma": "node scripts/import-figma.mjs",
+    "build": "style-dictionary build --config style-dictionary.config.mjs",
+    "lint:tokens": "node scripts/lint-tokens.mjs",
+    "check:contract": "node scripts/check-contract.mjs --light themes/reference/color.json --dark themes/reference/color.dark.json --allow-brand-slot",
+    "lint:changes": "node scripts/lint-changes.mjs",
+    "changelog": "node scripts/changelog.mjs",
+    "test": "npm run lint:tokens && npm run build && npm run check:contract && npm run lint:changes",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": { "style-dictionary": ">=5" },
+  "peerDependenciesMeta": { "style-dictionary": { "optional": true } },
+  "devDependencies": { "style-dictionary": "^5.5.1" }
+}

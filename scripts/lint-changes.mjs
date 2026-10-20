@@ -1,0 +1,67 @@
+/**
+ * Changelog entries live one per PR in `changes/` (see changes/README.md), so
+ * a merge never breaks every other open PR's `CHANGELOG.md`. This check:
+ *
+ * 1. Fails a branch that changes tokens/, themes/, contract/ or build/ without adding or editing
+ *    a file in `changes/`.
+ * 2. Fails a branch that edits `CHANGELOG.md` directly. The release step is
+ *    the exception: it edits `CHANGELOG.md` while deleting fragments.
+ * 3. Fails any fragment in the tree that is malformed (header, heading, or a
+ *    `major` without a `Migration:` note).
+ *
+ * The branch is compared with its merge base on `main` (in CI, the PR's base
+ * branch), working-tree edits and new files included, so it gives the same
+ * answer locally before a commit as it does in CI.
+ */
+import { execSync } from 'node:child_process';
+import { DIR, fragmentPaths, parseFragment } from './changes.mjs';
+
+const git = (args) => execSync(`git ${args}`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+
+let failed = 0;
+const fail = (msg) => { console.error(msg); failed++; };
+
+/* Rule 3 — every fragment in the tree is well formed. */
+const fragments = fragmentPaths().map(parseFragment);
+for (const f of fragments) for (const p of f.problems) fail(`${f.path}: ${p}`);
+
+/* Rules 1 and 2 need something to compare with. */
+const base = process.env.GITHUB_BASE_REF ? `origin/${process.env.GITHUB_BASE_REF}` : 'origin/main';
+let mergeBase = null;
+try {
+  mergeBase = git(`merge-base ${base} HEAD`);
+} catch {
+  console.warn(`⚠ lint:changes: no ${base} to compare with — checked fragment format only.`);
+}
+
+if (mergeBase) {
+  /* Committed + uncommitted changes since the merge base, and new untracked files. */
+  const changed = git(`diff --name-status ${mergeBase}`)
+    .split('\n')
+    .filter(Boolean)
+    .map((line) => line.split('\t'))
+    .map(([status, ...paths]) => ({ status: status[0], path: paths.at(-1) }));
+  /* Untracked dotfiles (.DS_Store and the like) are not changes anyone made. */
+  for (const path of git('ls-files --others --exclude-standard').split('\n').filter(Boolean))
+    if (!path.split('/').at(-1).startsWith('.')) changed.push({ status: 'A', path });
+
+  const inChanges = (c) => c.path.startsWith(`${DIR}/`) && c.path !== `${DIR}/README.md`;
+  const touchesCode = changed.some((c) => /^(tokens|themes|contract|build)\//.test(c.path));
+  const addsFragment = changed.some((c) => inChanges(c) && c.status !== 'D');
+  const deletesFragment = changed.some((c) => inChanges(c) && c.status === 'D');
+  const editsChangelog = changed.some((c) => c.path === 'CHANGELOG.md');
+
+  if (touchesCode && !addsFragment)
+    fail(
+      `This branch changes tokens/, themes/, contract/ or build/ but adds no changelog entry.\n` +
+        `  Add changes/<branch-name>.md — see changes/README.md for the format.`,
+    );
+  if (editsChangelog && !deletesFragment)
+    fail(
+      `This branch edits CHANGELOG.md directly.\n` +
+        `  Put the entry in changes/<branch-name>.md instead; npm run changelog writes CHANGELOG.md at release.`,
+    );
+}
+
+if (failed) process.exit(1);
+console.log(`✔ Changelog entries OK (${fragments.length} unreleased in ${DIR}/)`);

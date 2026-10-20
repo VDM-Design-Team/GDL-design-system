@@ -1,0 +1,55 @@
+{
+  "desktop": {
+    "$description": "Desktop mode of the GDL Typography collection. Emitted as opt-in --font-size-* overrides (dist/typography.desktop.css); the type ramp itself ships Mobile sizes until a breakpoint strategy is agreed.",
+    "font": {
+      "size": {
+        "$type": "dimension",
+        "caption-sm": {
+          "$value": "10px"
+        },
+        "caption-md": {
+          "$value": "12px"
+        },
+        "body-sm": {
+          "$value": "14px"
+        },
+        "label-sm": {
+          "$value": "14px"
+        },
+        "title-sm": {
+          "$value": "16px"
+        },
+        "body-md": {
+          "$value": "18px"
+        },
+        "label-md": {
+          "$value": "18px"
+        },
+        "body-lg": {
+          "$value": "20px"
+        },
+        "heading-md": {
+          "$value": "24px"
+        },
+        "title-md": {
+          "$value": "24px"
+        },
+        "heading-lg": {
+          "$value": "32px"
+        },
+        "heading-xl": {
+          "$value": "40px"
+        },
+        "display-md": {
+          "$value": "56px"
+        },
+        "display-lg": {
+          "$value": "72px"
+        },
+        "display-xl": {
+          "$value": "90px"
+        }
+      }
+    }
+  }
+}

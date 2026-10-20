@@ -1,0 +1,120 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "$description": "Font families. font.family.sans is the slot every brand points at its own UI face (GDL default: Poppins). numeric is for dense figures and tabular numbers.",
+      "inter": {
+        "$value": [
+          "Inter",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "poppins": {
+        "$value": [
+          "Poppins",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "gotham-pro": {
+        "$value": [
+          "Gotham Pro",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "montserrat": {
+        "$value": [
+          "Montserrat",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "gotham-rounded": {
+        "$value": [
+          "Gotham Rounded",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
+      "sans": {
+        "$value": "{font.family.poppins}",
+        "$description": "The UI face. Brands override this one token (e.g. CAF → Inter, VCP → Poppins)."
+      },
+      "numeric": {
+        "$value": "{font.family.inter}",
+        "$description": "Dense numerics and tabular figures."
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light": {
+        "$value": 300
+      },
+      "regular": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
+    },
+    "size": {
+      "$description": "Type sizes, Mobile mode (the default every Figma text style resolves to). Desktop sizes are in tokens/modes/typography.desktop.json.",
+      "$type": "dimension",
+      "caption-sm": {
+        "$value": "10px"
+      },
+      "caption-md": {
+        "$value": "12px"
+      },
+      "body-sm": {
+        "$value": "14px"
+      },
+      "label-sm": {
+        "$value": "14px"
+      },
+      "body-md": {
+        "$value": "16px"
+      },
+      "label-md": {
+        "$value": "16px"
+      },
+      "title-sm": {
+        "$value": "16px",
+        "$description": "Added Oct 2026 so child text styles (Heading/md, Title/sm) can bind to GDL instead of an outside collection."
+      },
+      "body-lg": {
+        "$value": "18px"
+      },
+      "heading-md": {
+        "$value": "20px",
+        "$description": "Added Oct 2026 so child text styles (Heading/md, Title/sm) can bind to GDL instead of an outside collection."
+      },
+      "title-md": {
+        "$value": "20px"
+      },
+      "heading-lg": {
+        "$value": "24px"
+      },
+      "heading-xl": {
+        "$value": "32px"
+      },
+      "display-md": {
+        "$value": "40px"
+      },
+      "display-lg": {
+        "$value": "48px"
+      },
+      "display-xl": {
+        "$value": "64px"
+      }
+    }
+  }
+}
