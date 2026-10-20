@@ -8,6 +8,8 @@
  * - Otherwise a new section starts with the next version — the highest
  *   `bump` among the fragments — and `package.json` (and its lockfile) move
  *   to it.
+ * - With no fragments, an unreleased top section that already has its entries
+ *   (0.1.0's were written straight into `CHANGELOG.md`) just gets today's date.
  *
  * `--dry-run` prints the new section and the version, and writes nothing.
  */
@@ -24,8 +26,23 @@ if (bad.length) {
   for (const f of bad) for (const p of f.problems) console.error(`${f.path}: ${p}`);
   process.exit(1);
 }
+
+const today = new Date().toISOString().slice(0, 10);
+const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+const log = readFileSync(LOG, 'utf8');
+const unreleased = log.match(/^## (\S+) — unreleased\n/m);
+
 if (!fragments.length) {
-  console.log('Nothing to release: changes/ has no entries.');
+  if (!(unreleased && unreleased[1] === pkg.version)) {
+    console.log('Nothing to release: changes/ has no entries.');
+    process.exit(0);
+  }
+  if (dryRun) {
+    console.log(`Would release ${pkg.version} with the entries already in ${LOG}.`);
+    process.exit(0);
+  }
+  writeFileSync(LOG, log.replace(unreleased[0], `## ${pkg.version} — ${today}\n`));
+  console.log(`✔ ${LOG}: ${pkg.version} dated ${today}. Commit this as the release PR.`);
   process.exit(0);
 }
 
@@ -39,12 +56,8 @@ const addedAt = (path) => {
 };
 fragments.sort((a, b) => addedAt(b.path) - addedAt(a.path));
 
-const today = new Date().toISOString().slice(0, 10);
-const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
-const log = readFileSync(LOG, 'utf8');
 const entries = fragments.map((f) => f.body).join('\n\n');
 
-const unreleased = log.match(/^## (\S+) — unreleased\n/m);
 let version, next;
 if (unreleased && unreleased[1] === pkg.version) {
   version = pkg.version;

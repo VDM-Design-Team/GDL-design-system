@@ -5,7 +5,8 @@
  * 1. Fails a branch that changes tokens/, themes/, contract/ or build/ without adding or editing
  *    a file in `changes/`.
  * 2. Fails a branch that edits `CHANGELOG.md` directly. The release step is
- *    the exception: it edits `CHANGELOG.md` while deleting fragments.
+ *    the exception: it edits `CHANGELOG.md` while deleting fragments, or, with
+ *    none to fold in, only dates the `— unreleased` heading.
  * 3. Fails any fragment in the tree that is malformed (header, heading, or a
  *    `major` without a `Migration:` note).
  *
@@ -14,6 +15,7 @@
  * answer locally before a commit as it does in CI.
  */
 import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { DIR, fragmentPaths, parseFragment } from './changes.mjs';
 
 const git = (args) => execSync(`git ${args}`, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
@@ -50,13 +52,24 @@ if (mergeBase) {
   const addsFragment = changed.some((c) => inChanges(c) && c.status !== 'D');
   const deletesFragment = changed.some((c) => inChanges(c) && c.status === 'D');
   const editsChangelog = changed.some((c) => c.path === 'CHANGELOG.md');
+  /* The release step with no fragments: the only edit is `— unreleased` → today's date. */
+  const onlyDatesRelease = () => {
+    const after = readFileSync('CHANGELOG.md', 'utf8').trim();
+    const dated = after.match(/^## (\S+) — \d{4}-\d{2}-\d{2}$/m);
+    if (!dated) return false;
+    try {
+      return git(`show ${mergeBase}:CHANGELOG.md`).replace(`## ${dated[1]} — unreleased`, dated[0]) === after;
+    } catch {
+      return false;
+    }
+  };
 
   if (touchesCode && !addsFragment)
     fail(
       `This branch changes tokens/, themes/, contract/ or build/ but adds no changelog entry.\n` +
         `  Add changes/<branch-name>.md — see changes/README.md for the format.`,
     );
-  if (editsChangelog && !deletesFragment)
+  if (editsChangelog && !deletesFragment && !onlyDatesRelease())
     fail(
       `This branch edits CHANGELOG.md directly.\n` +
         `  Put the entry in changes/<branch-name>.md instead; npm run changelog writes CHANGELOG.md at release.`,
