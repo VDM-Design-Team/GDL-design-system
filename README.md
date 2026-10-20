@@ -31,6 +31,7 @@ setup is in [`docs/consuming.md`](docs/consuming.md).
 npm install
 npm test               # lint tokens, build, check the reference theme, check changelog entry
 npm run import:figma   # after refreshing figma-export/ — see docs/figma-sync.md
+npm run storybook      # foundations gallery (colour, type, spacing, shape, contract) on :6006
 ```
 
 - Tokens are generated from the GDL Figma file — never hand-edit `tokens/`.

@@ -64,6 +64,7 @@ every brand implements, and the **build tooling** they all use. Read
 | `npm run import:figma` | `figma-export/` → `tokens/` |
 | `npm run build` | `tokens/` + reference theme → `dist/` |
 | `npm test` | Token lint, build, contract check on the reference theme, changelog-entry lint (what CI runs) |
+| `npm run storybook` | Foundations gallery on :6006, read from `dist/` (rebuilds it first). `storybook:build` is the static build CI checks |
 | `npm run changelog` | At release: fold `changes/` into `CHANGELOG.md` and set the version |
 
 ## Workflow
