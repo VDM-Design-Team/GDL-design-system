@@ -18,19 +18,15 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
+      # PRs: TurboSnap, so a PR only snapshots the pages it can affect.
       - uses: chromaui/action@latest
         id: chromatic
+        if: github.event_name == 'pull_request'
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           # storybook:build runs `npm run build` first, so dist/ is fresh.
           buildScriptName: 'storybook:build'
-          # TurboSnap (only snapshot affected stories) on PRs only. On main it
-          # skips any push that touches no story — a README or workflow change —
-          # and a skipped build publishes no Storybook, so main--<appId>
-          # .chromatic.com 404'd until main had one real build. Every push to
-          # main is a full build instead (7 pages, so it costs next to nothing)
-          # and the permanent link always shows the current main.
-          onlyChanged: ${{ github.event_name == 'pull_request' }}
+          onlyChanged: true        # TurboSnap: only snapshot affected stories
           # TurboSnap traces changed files through the Storybook module graph,
           # but the stories read dist/tokens.json and the CSS reads
           # dist/theme.css — both built from tokens/, themes/ and build/ and
@@ -38,6 +34,19 @@ jobs:
           # turns TurboSnap off when one of these changes, so a token change
           # snapshots every page (VCP learned this the hard way in its PR #66).
           externals: '{tokens/**,themes/**,contract/**,build/**,style-dictionary.config.mjs}'
+          exitOnceUploaded: true
+
+      # main: always a full build. With TurboSnap, a push that touches no story
+      # (a README or workflow change) is skipped, and a skipped build publishes
+      # no Storybook — main--<appId>.chromatic.com 404'd until main had a real
+      # build. GDL has 7 pages, so snapshotting all of them costs next to
+      # nothing. No `externals` here: the CLI rejects it without onlyChanged.
+      - uses: chromaui/action@latest
+        id: chromatic-main
+        if: github.event_name == 'push'
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          buildScriptName: 'storybook:build'
           exitOnceUploaded: true
           # Every build on main becomes the new baseline, as in VCP. PR builds
           # diff against main, which is the comparison worth reading.
