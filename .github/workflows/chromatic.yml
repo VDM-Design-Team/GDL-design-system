@@ -24,7 +24,13 @@ jobs:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           # storybook:build runs `npm run build` first, so dist/ is fresh.
           buildScriptName: 'storybook:build'
-          onlyChanged: true        # TurboSnap: only snapshot affected stories
+          # TurboSnap (only snapshot affected stories) on PRs only. On main it
+          # skips any push that touches no story — a README or workflow change —
+          # and a skipped build publishes no Storybook, so main--<appId>
+          # .chromatic.com 404'd until main had one real build. Every push to
+          # main is a full build instead (7 pages, so it costs next to nothing)
+          # and the permanent link always shows the current main.
+          onlyChanged: ${{ github.event_name == 'pull_request' }}
           # TurboSnap traces changed files through the Storybook module graph,
           # but the stories read dist/tokens.json and the CSS reads
           # dist/theme.css — both built from tokens/, themes/ and build/ and
