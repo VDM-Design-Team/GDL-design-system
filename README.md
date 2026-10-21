@@ -29,6 +29,10 @@ names and structure here and colour in a brand's Storybook.
 Every PR also gets a "Visual review" comment with its own live Storybook and
 before → after diffs against `main`.
 
+**New to the team?** Start with [`Onboarding/README.md`](Onboarding/README.md):
+setup, catching up, reviewing, and proposing changes, with the exact things to
+ask Claude.
+
 ## For a brand repo
 
 ```bash
