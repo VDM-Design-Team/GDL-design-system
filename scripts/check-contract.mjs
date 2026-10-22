@@ -16,7 +16,8 @@
  *   - a recommended name is missing
  *   - a raw value (hex) instead of a reference
  *   - a reference to GDL's brand slot (color.primary / color.secondary):
- *     brands use their own ramp (--allow-brand-slot is for GDL's reference theme)
+ *     GDL doesn't ship it to brands; use your own ramp. GDL's reference theme
+ *     passes --core themes/reference/primitives.json --allow-brand-slot.
  * Info:
  *   - names outside required / recommended / extensions — fine, but worth
  *     proposing to GDL if another brand would need them
@@ -75,7 +76,9 @@ for (const [mode, map] of modes) {
   for (const [p, v] of map) {
     const ref = typeof v === 'string' && v.match(/^\{(.+)\}$/);
     if (!ref) { raw++; continue; }
-    if (!known.has(ref[1])) errors.push(`${mode}: ${p} → {${ref[1]}} does not resolve (not in GDL, the brand's --core files, or the semantic file)`);
+    if (!known.has(ref[1]) && /^color\.(primary|secondary)\./.test(ref[1]))
+      errors.push(`${mode}: ${p} → {${ref[1]}} is GDL's placeholder brand slot, which GDL doesn't ship to brands; point it at your own brand ramp`);
+    else if (!known.has(ref[1])) errors.push(`${mode}: ${p} → {${ref[1]}} does not resolve (not in GDL, the brand's --core files, or the semantic file)`);
     else if (/^color\.(primary|secondary)\./.test(ref[1]) && !flag('allow-brand-slot'))
       warnings.push(`${mode}: ${p} → {${ref[1]}} uses GDL's placeholder brand slot; point it at your brand ramp`);
   }

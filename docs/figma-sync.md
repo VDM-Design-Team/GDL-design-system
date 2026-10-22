@@ -32,9 +32,23 @@ use AUTO line height, so the explicit metrics live there.
 ```
 
 `n` name · `t` type (C colour, F float, S string) · `v` one value per mode ·
-`d` description · `s` scopes (omitted when ALL_SCOPES).
+`d` description · `s` scopes (omitted when ALL_SCOPES) · `h` 1 when the
+variable is hidden from publishing (omitted otherwise).
+
+## Hidden from publishing → reference only
+
+A colour primitive hidden from publishing in Figma never reaches a brand
+library, so it must not reach a brand build either. The importer writes such
+families to `themes/reference/primitives.json` (GDL's own build, reference
+theme and Storybook) instead of `tokens/core/color.json` (shipped to every
+brand). Today that is the brand slot, `primary` (pink), and `secondary`.
+
+To ship or withdraw a colour family, change its **Hide from publishing**
+setting in the GDL Figma file, refresh the snapshot and import. Hide or
+publish a whole family: the importer refuses a half-hidden ramp.
 
 ## CI guard
 
-CI runs `npm run import:figma` and fails if `tokens/` changes, so `tokens/`
-can only move together with the snapshot.
+CI runs `npm run import:figma` and fails if `tokens/` or
+`themes/reference/primitives.json` changes, so they can only move together
+with the snapshot.

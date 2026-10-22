@@ -7,6 +7,7 @@
 import type { ReactNode } from 'react';
 import tokens from '../dist/tokens.json';
 import coreColor from '../tokens/core/color.json';
+import referenceColor from '../themes/reference/primitives.json';
 import refLight from '../themes/reference/color.json';
 import refDark from '../themes/reference/color.dark.json';
 import contract from '../contract/semantic-color.json';
@@ -36,7 +37,10 @@ export const aliasOf = (mode: Mode, path: string[]) => {
 
 /** `$description` on a core colour family, from tokens/core/color.json. */
 export const familyNote = (family: string) =>
-  (get(coreColor, ['color', family, '$description']) as string | undefined) ?? '';
+  (get(coreColor, ['color', family, '$description']) ?? get(referenceColor, ['color', family, '$description'])) as string ?? '';
+
+/** True for a family GDL keeps to itself: hidden from publishing in Figma, so brands never receive it. */
+export const isReferenceOnly = (family: string) => get(referenceColor, ['color', family]) !== undefined;
 
 /** Every string leaf under a token tree, as paths. */
 export const leaves = (obj: unknown, prefix: string[] = []): string[][] =>

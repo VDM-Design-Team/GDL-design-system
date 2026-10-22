@@ -4,11 +4,11 @@
 
 ```
 GDL  (this repo · @vdm-design-team/gdl)
-├─ tokens/core        colour palette, spacing, radius, stroke, fonts, elevation
+├─ tokens/core        shared colours (greys, status hues), spacing, radius, stroke, fonts, elevation
 ├─ tokens/modes       dark elevation, desktop type sizes
 ├─ tokens/semantic    the 47-style type ramp
 ├─ contract/          the semantic colour names every brand must define
-├─ themes/reference   placeholder semantics on the brand slot (never shipped into a brand build)
+├─ themes/reference   the brand slot (pink) + placeholder semantics on it (never shipped into a brand build)
 └─ build/             Style Dictionary formats + Tailwind mapping every brand uses
 
 VCP · CAF · BeyondFriends · WHU  (one repo each, depends on @vdm-design-team/gdl)
@@ -27,6 +27,15 @@ VCP · CAF · BeyondFriends · WHU  (one repo each, depends on @vdm-design-team/
 | "Library updates available → Review" | a dependency-bump PR in the brand repo; the brand's CI and visual review show the effect |
 | A brand's Semantics variable aliases a GDL primitive | the brand's `tokens/semantic/*.json` references `{color.slate.500}`, resolved from GDL |
 | Brand-Primitives collection | the brand's `tokens/core/color.json` (its own ramps only) |
+| A GDL variable hidden from publishing (the brand slot) | `themes/reference/primitives.json`: in GDL's own build only, never in a brand's |
+
+**Colour, in one line:** GDL ships shared colours, each brand owns its brand
+ramp, and brand colour reaches components only through the semantic names
+(`action.primary`, `text.brand`, `surface.brand`, …). GDL's pink brand slot
+is a placeholder for GDL's own reference theme and Storybook. It is hidden
+from publishing in Figma, so neither brand libraries nor brand builds receive
+it. (Up to GDL 0.1.0 it leaked: every brand's `theme.css` had unused pink
+`--color-primary-*` and teal `--color-secondary-*` utilities.)
 
 Figma's Pro plan has no extended collections, so in Figma each brand keeps
 its own Semantics collection with the contract's names and nothing stops a

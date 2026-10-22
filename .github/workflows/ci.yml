@@ -16,7 +16,7 @@ jobs:
       - name: tokens/ matches the Figma snapshot
         run: |
           npm run import:figma
-          git diff --exit-code tokens/ || (echo "::error::tokens/ differs from figma-export/ — never hand-edit tokens/; refresh the snapshot and run 'npm run import:figma'." && exit 1)
+          git diff --exit-code tokens/ themes/reference/primitives.json || (echo "::error::tokens/ or themes/reference/primitives.json differs from figma-export/ — never hand-edit them; refresh the snapshot and run 'npm run import:figma'." && exit 1)
       - run: npm test
       - name: Storybook builds
         run: npm run storybook:build

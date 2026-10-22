@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
-  tokens, contract, valueIn, aliasOf, familyNote, semanticNames, tierOf, utilityFor,
+  tokens, contract, valueIn, aliasOf, familyNote, isReferenceOnly, semanticNames, tierOf, utilityFor,
   Page, Section, Grid, Code, Chip, Tag, type Mode,
 } from './lib';
 
@@ -86,7 +86,8 @@ const Palette = () => (
       <>
         The primitive ramps semantic tokens point at. Components don't use these directly (they're hidden from Figma's
         pickers); reach for a semantic token instead. Core colours don't change between light and dark: the semantic
-        layer picks different steps.
+        layer picks different steps. Ramps marked <Tag>reference only</Tag> are hidden from publishing in GDL Figma, so
+        brands never receive them. Each brand uses its own brand ramp instead.
       </>
     }
   >
@@ -95,15 +96,17 @@ const Palette = () => (
         key={family}
         title={
           <>
-            {family} {family === 'primary' && <Tag>brand slot</Tag>}
+            {family} {family === 'primary' && <Tag>brand slot</Tag>} {isReferenceOnly(family) && <Tag>reference only</Tag>}
           </>
         }
         note={
           <>
             {familyNote(family)}{' '}
-            <span className="whitespace-nowrap">
-              <Code>bg-{family}-*</Code>
-            </span>
+            {!isReferenceOnly(family) && (
+              <span className="whitespace-nowrap">
+                <Code>bg-{family}-*</Code>
+              </span>
+            )}
           </>
         }
       >

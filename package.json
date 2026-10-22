@@ -34,7 +34,7 @@
     "import:figma": "node scripts/import-figma.mjs",
     "build": "style-dictionary build --config style-dictionary.config.mjs",
     "lint:tokens": "node scripts/lint-tokens.mjs",
-    "check:contract": "node scripts/check-contract.mjs --light themes/reference/color.json --dark themes/reference/color.dark.json --allow-brand-slot",
+    "check:contract": "node scripts/check-contract.mjs --light themes/reference/color.json --dark themes/reference/color.dark.json --core themes/reference/primitives.json --allow-brand-slot",
     "lint:changes": "node scripts/lint-changes.mjs",
     "changelog": "node scripts/changelog.mjs",
     "test": "npm run lint:tokens && npm run build && npm run check:contract && npm run lint:changes",

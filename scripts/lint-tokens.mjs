@@ -4,21 +4,26 @@
  * 1. Every `{reference}` in tokens/ and themes/ resolves.
  * 2. Token names are lower-case kebab segments (they become CSS variable and
  *    Tailwind class names in every brand).
- * 3. Colour families in tokens/core/color.json are on the allow-list below.
- *    GDL is the parent of every brand, so it holds no brand colours except
- *    the brand slot. Adding a family means editing this list in the same PR,
- *    which puts the decision in front of a reviewer.
+ * 3. Colour families in tokens/core/color.json (shipped to every brand) are on
+ *    the allow-list below. GDL is the parent of every brand, so it ships no
+ *    brand colours at all. Adding a family means editing this list in the
+ *    same PR, which puts the decision in front of a reviewer.
+ * 4. Reference-only families (themes/reference/primitives.json: hidden from
+ *    publishing in Figma, never shipped to brands) are on their own list, and
+ *    no family is in both files.
  */
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ALLOWED_FAMILIES = {
-  primary: 'the brand slot (placeholder each brand replaces)',
-  secondary: 'origin unknown — kept from Figma, not used by VCP/CAF; remove once confirmed',
   neutral: 'shared gray',
   slate: 'shared neutral used by VCP and CAF',
   monochrome: 'white / black / transparent',
   green: 'status', red: 'status', yellow: 'status', blue: 'status', orange: 'status',
+};
+const REFERENCE_ONLY_FAMILIES = {
+  primary: 'the brand slot: GDL\'s placeholder brand ramp; each brand uses its own',
+  secondary: 'origin unknown; no brand uses it',
 };
 
 const files = (dir) => readdirSync(dir, { recursive: true }).filter((f) => f.endsWith('.json')).map((f) => join(dir, f));
@@ -47,8 +52,14 @@ for (const { path, value, file } of all.values()) {
   for (const ref of refsIn(value)) if (!known.has(ref)) fail(`${file}: ${path.join('.')} → {${ref}} does not resolve`);
 }
 
-const families = Object.keys(JSON.parse(readFileSync('tokens/core/color.json', 'utf8')).color).filter((k) => !k.startsWith('$'));
-for (const f of families) if (!(f in ALLOWED_FAMILIES)) fail(`tokens/core/color.json: colour family "${f}" is not on the allow-list in scripts/lint-tokens.mjs — GDL holds no brand colours except the brand slot`);
+const familiesOf = (file) => Object.keys(JSON.parse(readFileSync(file, 'utf8')).color).filter((k) => !k.startsWith('$'));
+const families = familiesOf('tokens/core/color.json');
+for (const f of families) if (!(f in ALLOWED_FAMILIES)) fail(`tokens/core/color.json: colour family "${f}" is not on the allow-list in scripts/lint-tokens.mjs — GDL ships no brand colours`);
+const referenceFamilies = familiesOf('themes/reference/primitives.json');
+for (const f of referenceFamilies) {
+  if (!(f in REFERENCE_ONLY_FAMILIES)) fail(`themes/reference/primitives.json: colour family "${f}" is not on the reference-only list in scripts/lint-tokens.mjs`);
+  if (families.includes(f)) fail(`colour family "${f}" is both shipped (tokens/core) and reference-only (themes/reference)`);
+}
 
 if (failed) process.exit(1);
-console.log(`✔ ${all.size} tokens: names valid, references resolve, ${families.length} colour families on the allow-list`);
+console.log(`✔ ${all.size} tokens: names valid, references resolve, ${families.length} shipped + ${referenceFamilies.length} reference-only colour families on their lists`);

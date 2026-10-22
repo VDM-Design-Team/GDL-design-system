@@ -8,10 +8,15 @@ every brand implements, and the **build tooling** they all use. Read
 
 ## Rules — apply to every change
 
-1. **No brand colours in GDL.** The only brand-ish ramp is the brand slot,
-   `color.primary` — a placeholder each brand replaces with its own.
-   `npm run lint:tokens` fails on any colour family not on its allow-list;
-   adding one means editing that list in the same PR, so a reviewer sees it.
+1. **No brand colours in GDL.** GDL ships only shared colours (greys and
+   status hues). Each brand keeps its own brand ramp (`vcp-blue`, `caf-blue`)
+   and points its semantic tokens at it. GDL's brand slot, `color.primary`
+   (the pink placeholder), and `color.secondary` are hidden from publishing
+   in Figma, so the importer writes them to `themes/reference/primitives.json`
+   and brands never receive them. `npm run lint:tokens` fails on any shipped
+   colour family not on its allow-list; adding one means editing that list in
+   the same PR, so a reviewer sees it. To ship or withdraw a family, change
+   its "Hide from publishing" setting in the GDL Figma file.
 2. **Tokens come from Figma (for now).** `tokens/` is generated from the
    snapshots in `figma-export/` by `npm run import:figma`. Never hand-edit
    `tokens/`. To change a value: change the GDL Figma file, refresh the
