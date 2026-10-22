@@ -8,13 +8,13 @@ what is its own; everything shared comes from GDL.
 From GDL's release tag on GitHub. In the brand repo:
 
 ```bash
-npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^0.1.0" style-dictionary
+npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^1.0.0" style-dictionary
 ```
 
 This writes the dependency as
 
 ```json
-"@vdm-design-team/gdl": "github:VDM-Design-Team/GDL-design-system#semver:^0.1.0"
+"@vdm-design-team/gdl": "github:VDM-Design-Team/GDL-design-system#semver:^1.0.0"
 ```
 
 GDL's repo is public, so this needs no token and no `.npmrc`, locally or in
@@ -24,8 +24,8 @@ Why the git tag and not GitHub Packages:
 
 - GitHub Packages needs a token with `read:packages` even for a public
   package. Every machine and workflow that installs the brand would need one.
-- `#semver:^0.1.0` is the same version range a registry dependency would
-  have. It resolves only to tagged releases (`v0.1.0`, `v0.1.1`, …), never to
+- `#semver:^1.0.0` is the same version range a registry dependency would
+  have. It resolves only to tagged releases (`v1.0.0`, `v1.1.0`, …), never to
   `main`, and `package-lock.json` pins the exact commit.
 - npm clones GitHub dependencies over https first. The lockfile records a
   `git+ssh://` URL, but that is only npm's canonical form for GitHub
@@ -115,8 +115,11 @@ PR, read the GDL `CHANGELOG.md` entries, and review the visual diff. A
 
 What the bump PR changes depends on the release:
 
-- A release inside the range (for `^0.1.0`, any `0.1.x`) changes only
-  `package-lock.json`: run `npm update @vdm-design-team/gdl`.
-- A release outside the range (any `major`, and while GDL is `0.x`, a `minor`
-  too) also changes the semver range in `package.json`, for example
-  `npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^0.2.0"`.
+- A release inside the range (for `^1.0.0`, any `1.x`: `minor` and `patch`
+  releases) changes only `package-lock.json`: run
+  `npm update @vdm-design-team/gdl`.
+- A `major` release is outside the range, so it also changes the semver range
+  in `package.json`, for example
+  `npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^2.0.0"`.
+- Brands still on `^0.1.0` (the range before 1.0.0) take 1.0.0 that way:
+  `npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^1.0.0"`.
