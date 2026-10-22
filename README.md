@@ -36,7 +36,7 @@ ask Claude.
 ## For a brand repo
 
 ```bash
-npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^0.1.0" style-dictionary
+npm install --save-dev "github:VDM-Design-Team/GDL-design-system#semver:^1.0.0" style-dictionary
 ```
 
 This installs GDL from its release tag: no token, no `.npmrc`, and it resolves

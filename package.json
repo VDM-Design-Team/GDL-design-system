@@ -1,12 +1,19 @@
 {
   "name": "@vdm-design-team/gdl",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "General Design Library — the parent design system. Shared tokens, the semantic colour contract every brand implements, and the build tooling brands (VCP, CAF, …) use.",
   "type": "module",
   "license": "UNLICENSED",
-  "repository": { "type": "git", "url": "https://github.com/VDM-Design-Team/GDL-design-system.git" },
-  "publishConfig": { "registry": "https://npm.pkg.github.com" },
-  "engines": { "node": ">=22" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VDM-Design-Team/GDL-design-system.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "files": [
     "dist",
     "tokens",
@@ -29,7 +36,9 @@
     "./themes/*": "./themes/*",
     "./package.json": "./package.json"
   },
-  "bin": { "gdl-check-contract": "scripts/check-contract.mjs" },
+  "bin": {
+    "gdl-check-contract": "scripts/check-contract.mjs"
+  },
   "scripts": {
     "import:figma": "node scripts/import-figma.mjs",
     "build": "style-dictionary build --config style-dictionary.config.mjs",
@@ -42,8 +51,14 @@
     "storybook": "npm run build && storybook dev -p ${PORT:-6006}",
     "storybook:build": "npm run build && storybook build"
   },
-  "peerDependencies": { "style-dictionary": ">=5" },
-  "peerDependenciesMeta": { "style-dictionary": { "optional": true } },
+  "peerDependencies": {
+    "style-dictionary": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "style-dictionary": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@storybook/addon-docs": "^10.6.2",
     "@storybook/react-vite": "^10.6.2",
