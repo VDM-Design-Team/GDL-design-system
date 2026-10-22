@@ -101,10 +101,11 @@ The app imports the brand's `dist/theme.css` in place of
 }
 ```
 
-Add it to `npm test`. It fails on a missing required name (either mode) or a
-reference that doesn't resolve to GDL or the brand's core; it warns on a
-missing recommended name, raw hex values, and references to GDL's brand
-slot (`color.primary`).
+Add it to `npm test`. It fails on a missing required name (either mode), a
+reference that doesn't resolve to GDL or the brand's core, or a reference to
+GDL's brand slot (`color.primary`/`color.secondary`, which GDL doesn't ship
+to brands: point it at your own brand ramp). It warns on a missing
+recommended name and raw hex values.
 
 ## 5. Upgrading GDL
 

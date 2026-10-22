@@ -8,7 +8,7 @@ it, the same way their Figma libraries subscribe to the GDL Figma library.
 ├─ tokens/        shared scales — colour palette, spacing, radius, stroke,
 │                 fonts, elevation, the 47-style type ramp (+ dark / desktop modes)
 ├─ contract/      the 247 semantic colour names every brand defines
-├─ themes/        reference theme: placeholder semantics on the brand slot
+├─ themes/        reference theme: the pink brand slot + placeholder semantics on it (never shipped to brands)
 ├─ build/         Style Dictionary formats + Tailwind v4 mapping brands use
 └─ gdl-check-contract   CLI a brand runs in CI
 ```

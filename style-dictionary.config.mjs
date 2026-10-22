@@ -7,9 +7,11 @@ import { registerGdlFormats, gdlPlatforms } from './build/formats.mjs';
  * docs/consuming.md); this file only differs in what it reads:
  *
  *   tokens/            GDL core scales, modes, type ramp  (shipped to brands)
- *   themes/reference/  placeholder semantics on the brand slot
- *                      (GDL's own gallery and the starting point for a new
- *                      brand — brands never include it)
+ *   themes/reference/  the brand slot (primitives.json, generated from the
+ *                      Figma variables hidden from publishing) and
+ *                      placeholder semantics on it (GDL's own gallery and
+ *                      the starting point for a new brand — brands never
+ *                      include it)
  * ------------------------------------------------------------------ */
 registerGdlFormats(StyleDictionary);
 

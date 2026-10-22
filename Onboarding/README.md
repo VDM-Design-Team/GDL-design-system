@@ -67,8 +67,9 @@ only when a second brand needs the same one. The Storybook shows foundations:
 - **Contract.** The names every brand must define, in light and dark.
 
 **The pink is a placeholder.** GDL's semantic colours are shown on its brand
-slot (`color.primary`), a pink ramp that every brand replaces with its own
-colour. In GDL, judge **names, structure and steps**. Judge actual colour in a
+slot (`color.primary`), a pink ramp that only GDL uses: it's hidden from
+publishing, so brands never receive it, and each brand uses its own brand
+colour instead. In GDL, judge **names, structure and steps**. Judge actual colour in a
 brand's Storybook. Use **Theme** in the Storybook toolbar to switch between
 light and dark.
 

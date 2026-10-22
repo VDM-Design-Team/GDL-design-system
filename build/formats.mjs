@@ -17,7 +17,7 @@
  * Tailwind v4 mapping — every token path lands in a Tailwind namespace so it
  * becomes a utility class:
  *
- *   color.<family>.<step>             --color-*        bg-slate-100, text-primary-500
+ *   color.<family>.<step>             --color-*        bg-slate-100, text-blue-500
  *   surface|text|stroke|action|accent|neutral.*
  *                                     --color-*        bg-surface-canvas, text-text-primary
  *   radius.*                          --radius-*       rounded-8, rounded-full
