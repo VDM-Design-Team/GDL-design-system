@@ -1,7 +1,7 @@
 {
   "exportedAt": "2026-10-20",
   "file": "1rBM831Vs5ZS4OsRwIPH52",
-  "note": "Every text style has lineHeight AUTO and letterSpacing 0% in Figma. Explicit metrics live in figma-export/type-metrics.json.",
+  "note": "Every text style has lineHeight AUTO and letterSpacing 0% in Figma. Each tier's metrics are the font/line-height/* and font/letter-spacing/* variables in gdl-variables.json (docs/figma-sync.md → Type metrics).",
   "text": [
     ["Display/xl-bold", "Poppins", "Bold", 64, "font/size/display-xl"],
     ["Display/lg-bold", "Poppins", "Bold", 48, "font/size/display-lg"],

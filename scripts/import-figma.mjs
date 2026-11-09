@@ -8,10 +8,20 @@
  * How to refresh the snapshots is in docs/figma-sync.md.
  *
  * What it reads
- *   figma-export/gdl-variables.json  every GDL variable collection
+ *   figma-export/gdl-variables.json  every GDL variable collection, including
+ *                                    font/line-height/* and font/letter-spacing/*
+ *                                    (the type ramp's metrics per tier)
  *   figma-export/gdl-styles.json     text styles + elevation effect styles
- *   figma-export/type-metrics.json   line height / letter spacing per tier
- *                                    (Figma's styles use AUTO, so these are kept here)
+ *
+ * Type metrics: Figma px → code's form
+ *   Figma binds a number variable to line height and letter spacing in px
+ *   only, so a tier that scales with its size has a px value per mode
+ *   (display-xl: 70.4 Mobile, 99 Desktop). Code keeps the ramp's form: a value
+ *   that is the same in every mode ships in px (body-md: 24px); one that is
+ *   the same multiple of the font size in every mode ships relative to it, as
+ *   a unitless line height (1.1) or em letter spacing (-0.02em), so it keeps
+ *   scaling once desktop sizes reach the ramp. Anything else means one mode
+ *   was changed without the other, and the import stops.
  *
  * What it deliberately skips
  *   The "Components" collection (button/filled/enabled, text/brand_dark …).
@@ -41,7 +51,6 @@ const kebab = (s) => s.trim().toLowerCase().replace(/\s+/g, '-');
 
 const vars = read('figma-export/gdl-variables.json');
 const styles = read('figma-export/gdl-styles.json');
-const metrics = read('figma-export/type-metrics.json');
 const collection = (name) => {
   const c = vars.collections.find((x) => x.name === name);
   if (!c) throw new Error(`figma-export has no "${name}" collection`);
@@ -108,6 +117,8 @@ const typography = {
   },
 };
 const desktopSizes = {};
+const sizeOf = {}; // tier → [Mobile, Desktop] px
+const metricVars = { 'line-height': {}, 'letter-spacing': {} }; // kind → tier → [Mobile, Desktop] px
 for (const v of typo.variables) {
   const [, kind, raw] = v.n.split('/');
   const key = kebab(raw);
@@ -118,7 +129,9 @@ for (const v of typo.variables) {
   } else if (kind === 'size') {
     typography.font.size[key] = { $value: `${v.v[MOBILE]}px`, ...(v.d ? { $description: v.d } : {}) };
     desktopSizes[key] = { $value: `${v.v[DESKTOP]}px` };
-  }
+    sizeOf[key] = [v.v[MOBILE], v.v[DESKTOP]];
+  } else if (kind in metricVars) metricVars[kind][key] = [v.v[MOBILE], v.v[DESKTOP]];
+  else throw new Error(`${v.n}: the importer doesn't know Typography variables of kind "${kind}" — teach scripts/import-figma.mjs about it rather than dropping it`);
 }
 typography.font.family.sans = { $value: '{font.family.poppins}', $description: 'The UI face. Brands override this one token (e.g. CAF → Inter, VCP → Poppins).' };
 typography.font.family.numeric = { $value: '{font.family.inter}', $description: 'Dense numerics and tabular figures.' };
@@ -126,6 +139,46 @@ typography.font.family.numeric = { $value: '{font.family.inter}', $description: 
 typography.font.weight = Object.fromEntries([['$type', 'fontWeight'], ...Object.keys(WEIGHT).map((k) => [k, typography.font.weight[k]])]);
 const bySize = (o) => Object.fromEntries(Object.entries(o).sort(([ka, a], [kb, b]) => (ka.startsWith('$') ? -1 : kb.startsWith('$') ? 1 : parseFloat(a.$value) - parseFloat(b.$value) || ka.localeCompare(kb))));
 typography.font.size = bySize(typography.font.size);
+
+/* Type metrics per tier (see "Type metrics" at the top). Tiers run display →
+ * caption, large → small within a group, the order of the ramp below. */
+const TIER_GROUPS = ['display', 'heading', 'title', 'body', 'label', 'caption'];
+const tiers = Object.keys(sizeOf).sort((a, b) => {
+  const [ga, gb] = [a, b].map((t) => TIER_GROUPS.indexOf(t.split('-')[0]));
+  return ga - gb || sizeOf[b][0] - sizeOf[a][0] || a.localeCompare(b);
+});
+for (const t of tiers) if (TIER_GROUPS.indexOf(t.split('-')[0]) < 0) throw new Error(`font/size/${t}: unknown type tier group — add it to TIER_GROUPS in scripts/import-figma.mjs`);
+const round4 = (x) => +x.toFixed(4);
+const near = (a, b) => Math.abs(a - b) < 5e-4;
+/** { px } when the same in every mode, { ratio } (of the font size) when it scales with the size. */
+const metricOf = (kind, tier) => {
+  const values = metricVars[kind][tier];
+  if (!values) throw new Error(`font/size/${tier} has no font/${kind}/${tier} variable in the Figma Typography collection — every tier needs both metrics`);
+  const [m, d] = values;
+  if (near(m, d)) return { px: round4(m) };
+  const [rm, rd] = [m / sizeOf[tier][0], d / sizeOf[tier][1]];
+  if (near(rm, rd)) return { ratio: round4(rm) };
+  throw new Error(`font/${kind}/${tier}: Mobile ${m} and Desktop ${d} are neither the same nor the same multiple of the font size (${sizeOf[tier].join(' / ')}) — change every mode together`);
+};
+const metrics = {}; // tier → { lineHeight, letterSpacing } in the ramp's form
+for (const tier of tiers) {
+  const lh = metricOf('line-height', tier);
+  const ls = metricOf('letter-spacing', tier);
+  metrics[tier] = {
+    lineHeight: 'ratio' in lh ? lh.ratio : `${lh.px}px`,
+    letterSpacing: 'ratio' in ls ? `${ls.ratio}em` : `${ls.px}px`,
+  };
+}
+typography.font['line-height'] = {
+  $description: 'Line height per type tier, from font/line-height/* in the Figma Typography collection; the type ramp (type.*) carries the same values. A tier whose Figma value scales with its font size in every mode ships unitless, one that is the same in every mode ships in px, so neither needs a desktop override.',
+  ...Object.fromEntries(tiers.map((t) => [t, { $type: typeof metrics[t].lineHeight === 'number' ? 'number' : 'dimension', $value: metrics[t].lineHeight }])),
+};
+typography.font['letter-spacing'] = {
+  $description: 'Letter spacing per type tier, from font/letter-spacing/* in the Figma Typography collection; the type ramp (type.*) carries the same values. A tier whose Figma value scales with its font size in every mode ships in em, one that is the same in every mode ships in px.',
+  $type: 'dimension',
+  ...Object.fromEntries(tiers.map((t) => [t, { $value: metrics[t].letterSpacing }])),
+};
+
 const typographyDesktop = {
   desktop: {
     $description: 'Desktop mode of the GDL Typography collection. Emitted as opt-in --font-size-* overrides (dist/typography.desktop.css); the type ramp itself ships Mobile sizes until a breakpoint strategy is agreed.',
@@ -136,7 +189,6 @@ const typographyDesktop = {
 /* ---------- type ramp: the 47 text styles ---------- */
 const WEIGHT_OF_STYLE = { Bold: 'bold', SemiBold: 'semibold', Medium: 'medium', Regular: 'regular', Light: 'light' };
 const type = {};
-const tierOrder = Object.keys(metrics).filter((k) => !k.startsWith('$'));
 const weightOrder = ['bold', 'semibold', 'medium', 'regular', 'light'];
 const rows = styles.text.map(([name, , style, size, sizeVar]) => {
   const [group, rest] = name.split('/');
@@ -144,10 +196,10 @@ const rows = styles.text.map(([name, , style, size, sizeVar]) => {
   const tier = `${group.toLowerCase()}-${sizeName}`;
   const weight = WEIGHT_OF_STYLE[style];
   if (weight !== weightName) throw new Error(`${name}: name says ${weightName} but the font style is ${style}`);
-  if (!metrics[tier]) throw new Error(`${name}: no metrics for tier ${tier} in figma-export/type-metrics.json`);
+  if (!metrics[tier]) throw new Error(`${name}: no font/size/${tier} (and so no metrics) in the Figma Typography collection`);
   return { tier, weight, size, sizeVar };
 });
-rows.sort((a, b) => tierOrder.indexOf(a.tier) - tierOrder.indexOf(b.tier) || weightOrder.indexOf(a.weight) - weightOrder.indexOf(b.weight));
+rows.sort((a, b) => tiers.indexOf(a.tier) - tiers.indexOf(b.tier) || weightOrder.indexOf(a.weight) - weightOrder.indexOf(b.weight));
 for (const { tier, weight, size, sizeVar } of rows) {
   const m = metrics[tier];
   type[`${tier}-${weight}`] = {
@@ -157,7 +209,8 @@ for (const { tier, weight, size, sizeVar } of rows) {
       fontSize: `${size}px`,
       lineHeight: m.lineHeight,
       fontWeight: `{font.weight.${weight}}`,
-      ...(m.letterSpacing ? { letterSpacing: m.letterSpacing } : {}),
+      /* No tracking (0) is left out, so the style inherits it, as the ramp always has. */
+      ...(m.letterSpacing !== '0px' ? { letterSpacing: m.letterSpacing } : {}),
     },
     ...(sizeVar ? { $extensions: { 'com.figma': { fontSizeVariable: sizeVar } } } : {}),
   };

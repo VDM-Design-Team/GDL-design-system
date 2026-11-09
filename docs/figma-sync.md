@@ -19,8 +19,30 @@ connector) and committed as plain JSON.
 4. `git diff` — every token change should be one you meant. Then `npm test`.
 5. Commit snapshot + tokens together, add a `changes/` entry, open a PR.
 
-`figma-export/type-metrics.json` is maintained by hand: Figma's text styles
-use AUTO line height, so the explicit metrics live there.
+## Type metrics
+
+Each type tier's line height and letter spacing are variables in the
+Typography collection: `font/line-height/<tier>` and
+`font/letter-spacing/<tier>` (added 9 Nov 2026; until then they were kept by
+hand in `figma-export/type-metrics.json`). Brand text styles bind them. GDL's
+own text styles still use AUTO line height and 0% letter spacing.
+
+Figma applies a bound number variable in **px only**, so code reads each
+variable's modes to decide its form:
+
+| In Figma | In code | Tiers today |
+|---|---|---|
+| The same value in every mode | px (`24px`, `0.25px`) | title, body, label, caption |
+| The same multiple of `font/size/<tier>` in every mode | relative: unitless line height (`1.1`), em letter spacing (`-0.02em`) | display, heading |
+
+So display-xl's line height is 70.4 in Mobile (64 × 1.1) and 99 in Desktop
+(90 × 1.1), and code ships `1.1`. When you change a size or a metric, change
+every mode so the rule still holds: the importer stops on a metric that is
+neither. Each relative variable's description gives its ratio.
+
+The importer writes them as `font.line-height.*` and `font.letter-spacing.*`
+and uses the same values in the type ramp (`type.*`). A letter spacing of 0
+is left out of the ramp, so the style inherits it.
 
 ## Snapshot format
 
@@ -34,6 +56,9 @@ use AUTO line height, so the explicit metrics live there.
 `n` name · `t` type (C colour, F float, S string) · `v` one value per mode ·
 `d` description · `s` scopes (omitted when ALL_SCOPES) · `h` 1 when the
 variable is hidden from publishing (omitted otherwise).
+
+Floats are rounded to 4 decimal places. Figma stores 32-bit floats, so 70.4
+reads back as 70.4000015…
 
 ## Hidden from publishing → reference only
 

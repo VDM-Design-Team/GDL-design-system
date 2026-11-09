@@ -57,7 +57,10 @@ every brand implements, and the **build tooling** they all use. Read
   `rounded-<px>`.
 - Type ramp: `type.<tier>-<size>-<weight>` → `text-body-md-regular`
   (size + line height + weight + tracking as a unit). `font.family.sans` is
-  the slot each brand points at its UI face.
+  the slot each brand points at its UI face. Each tier's metrics are also
+  tokens of their own, `font.line-height.<tier>` and
+  `font.letter-spacing.<tier>` (Figma `font/line-height/*` and
+  `font/letter-spacing/*`, which brand text styles bind).
 - Elevation: `shadow.elevation.1`…`7` → `shadow-elevation-3`; dark values
   in `tokens/modes/elevation.dark.json`.
 - Every path segment is lower-case kebab (`lint:tokens` enforces it).
