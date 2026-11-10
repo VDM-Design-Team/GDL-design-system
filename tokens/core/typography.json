@@ -115,6 +115,118 @@
       "display-xl": {
         "$value": "64px"
       }
+    },
+    "line-height": {
+      "$description": "Line height per type tier, from font/line-height/* in the Figma Typography collection; the type ramp (type.*) carries the same values. A tier whose Figma value scales with its font size in every mode ships unitless, one that is the same in every mode ships in px, so neither needs a desktop override.",
+      "display-xl": {
+        "$type": "number",
+        "$value": 1.1
+      },
+      "display-lg": {
+        "$type": "number",
+        "$value": 1.12
+      },
+      "display-md": {
+        "$type": "number",
+        "$value": 1.15
+      },
+      "heading-xl": {
+        "$type": "number",
+        "$value": 1.2
+      },
+      "heading-lg": {
+        "$type": "number",
+        "$value": 1.25
+      },
+      "heading-md": {
+        "$type": "number",
+        "$value": 1.3
+      },
+      "title-md": {
+        "$type": "dimension",
+        "$value": "28px"
+      },
+      "title-sm": {
+        "$type": "dimension",
+        "$value": "24px"
+      },
+      "body-lg": {
+        "$type": "dimension",
+        "$value": "26px"
+      },
+      "body-md": {
+        "$type": "dimension",
+        "$value": "24px"
+      },
+      "body-sm": {
+        "$type": "dimension",
+        "$value": "20px"
+      },
+      "label-md": {
+        "$type": "dimension",
+        "$value": "20px"
+      },
+      "label-sm": {
+        "$type": "dimension",
+        "$value": "18px"
+      },
+      "caption-md": {
+        "$type": "dimension",
+        "$value": "16px"
+      },
+      "caption-sm": {
+        "$type": "dimension",
+        "$value": "14px"
+      }
+    },
+    "letter-spacing": {
+      "$description": "Letter spacing per type tier, from font/letter-spacing/* in the Figma Typography collection; the type ramp (type.*) carries the same values. A tier whose Figma value scales with its font size in every mode ships in em, one that is the same in every mode ships in px.",
+      "$type": "dimension",
+      "display-xl": {
+        "$value": "-0.02em"
+      },
+      "display-lg": {
+        "$value": "-0.02em"
+      },
+      "display-md": {
+        "$value": "-0.015em"
+      },
+      "heading-xl": {
+        "$value": "-0.015em"
+      },
+      "heading-lg": {
+        "$value": "-0.01em"
+      },
+      "heading-md": {
+        "$value": "0px"
+      },
+      "title-md": {
+        "$value": "0.1px"
+      },
+      "title-sm": {
+        "$value": "0.1px"
+      },
+      "body-lg": {
+        "$value": "0.15px"
+      },
+      "body-md": {
+        "$value": "0.25px"
+      },
+      "body-sm": {
+        "$value": "0.4px"
+      },
+      "label-md": {
+        "$value": "0.1px"
+      },
+      "label-sm": {
+        "$value": "0.2px"
+      },
+      "caption-md": {
+        "$value": "0.3px"
+      },
+      "caption-sm": {
+        "$value": "0.4px"
+      }
     }
   }
 }

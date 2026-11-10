@@ -67,9 +67,11 @@ Anything outside the three is allowed and reported, so it can be proposed.
   import:figma`), with CI checking they match. Whether GDL becomes
   repo-canonical (like VCP) once designers edit tokens through PRs is open.
 - **Type metrics** (line height, letter spacing) come from VCP's production
-  ramp because Figma's styles use AUTO. Desktop sizes are shipped as opt-in
-  custom properties, not wired into the ramp, until a breakpoint strategy is
-  agreed.
+  ramp because Figma's styles use AUTO. Since 9 Nov 2026 they are Figma
+  variables (`font/line-height/*`, `font/letter-spacing/*`) that brand text
+  styles bind, and the importer reads them from there (`docs/figma-sync.md`
+  → Type metrics). Desktop sizes are shipped as opt-in custom properties,
+  not wired into the ramp, until a breakpoint strategy is agreed.
 - **Not exported:** GDL Figma's legacy "Components" collection
   (`button/filled/enabled`, …) — superseded by the contract. GDL's Material 3
   pages are reference-only and have no tokens of their own here.
