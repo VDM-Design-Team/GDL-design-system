@@ -38,6 +38,13 @@
           "sans-serif"
         ]
       },
+      "open-sans": {
+        "$value": [
+          "Open Sans",
+          "system-ui",
+          "sans-serif"
+        ]
+      },
       "sans": {
         "$value": "{font.family.poppins}",
         "$description": "The UI face. Brands override this one token (e.g. CAF → Inter, VCP → Poppins)."
