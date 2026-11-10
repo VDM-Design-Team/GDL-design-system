@@ -1,6 +1,6 @@
 {
   "name": "@vdm-design-team/gdl",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "General Design Library — the parent design system. Shared tokens, the semantic colour contract every brand implements, and the build tooling brands (VCP, CAF, …) use.",
   "type": "module",
   "license": "UNLICENSED",
