@@ -1,7 +1,7 @@
 /* Storybook entry: GDL's compiled theme (reference semantics on the brand slot)
    + Tailwind scanning of the stories. Gotham Pro and Gotham Rounded are
    licensed faces with no web source here, so they fall back. */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 @import '../dist/theme.css';
 @source '../stories';
 
